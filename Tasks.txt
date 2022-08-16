@@ -1,0 +1,133 @@
+Deloitte need help to test the SOSS code in MC which has some issues in Prod as part of latest MTP à Radha
+Refresh data for ea_shared.cndn_typ_acct_ky   à Radha
+Secured MTP – attached implementation plan doc.   à Umesh
+Code migration for True-up bmt. – Radha to copy the below files into Prod common location  à Umesh
+/user/srvc_nextgen_hpro/egi/secure/oozie/job_ea_secrd_rpt_fact_trueup_paramupdate.properties
+
+/user/srvc_nextgen_hpro/egi/secure/oozie/job_ea_secrd_rpt_fact_trueup_paramupdate_coordinator.xml
+
+/user/srvc_nextgen_hpro/egi/secure/oozie/job_ea_secrd_rpt_fact_trueup_paramupdate_workflow.xml
+
+OPE code migration – new class is added to load data from stage table to refined tables – new class/code is under egi2.0 branch under spark/ope – take the code from Master branch and take the latest scala file from egi2.0 branch and compile the code – push the code to egi folder/git.
+hdfs://EAP-PROD/user/srvc_nextgen_hpro/oozie/Consumption/OPE/hpe-eap-oozie-ope/job_ea_ope_sls_cpsn_ptnr_cpsn_workflow_egi.xml
+
+https://github.hpe.com/enterprise-analytics/enterprise_analytics_master/tree/egi2.0/spark/OPE/src/main/scala/com/hpe/ope/serp
+
+SOSS Integration layer control table code changes – dxc has given the code – need to do the changes in MC workflow. à Radha.
+Comment the control table update code from SOSS Integration layer code.
+SOSS Ref à control table update à SOSS Dmsns table load.
+Handle temp files issue - BMT load process in MC  à Radha
+255817 à provide info to Mphasis team  à Sasi
+Data refresh for 3 months/S0SS– May, June and July till date – on hold as Biz need few more CR’s to be MTPed. 
+Raise support ticket 164785 Discussion  à Sasi
+Billing missed data – Need to investigate the reason – David sent an email on this à Radha/Sasi.
+Missing SO ID’s in MC – only 22 SO IDs are missing in MC out of 25K listed in defect – further investigation is to find out why the 22 SO ID’s are not flowing to Secured  à Trishala
+BRIM DOR data not flowing in MC. Data loaded up to Sales order ref, but not flowing to sales shipment ref – assigned to Nandhika and need a code fix for this.
+RAR - workflows creation – Ref and consumption.  à Radha, Trishala , Sadguna.
+Data can be tested up to consumption layer as we are using integrated tables for Secured loads currently.
+
+Spark with Presto connection à Umesh.
+Test this with one of the scala file and load data into test table à
+Oozie workflow alignment – low priority – Umesh. à Completed.
+LFB Hist data process – We can Migrate only the External tables and Data to MC, Subba should upload the External table DDL’s in Git bub and migrate the same to MC  à Sadguna
+Subba shared 16 external DDL’s and all are available in MC.
+
+Eg: hdfs://EAP-PROD-FIN/warehouse/tablespace/external/hive/ea_fin_lgcy.db/ext_blng_dcmt_lgcy_hist_edw_ref
+
+OPE and SOSS and Secured automation completed. Closely monitor the jobs à Govind.
+Restatement jobs monitoring à Umesh.
+Validate the data in SOSS and Secured tables on daily basis and publish the reports through email à Govind.
+ 
+
+Info:
+
+MC Presto:  jdbc:presto://p1lb15578.dc01.its.hpecorp.net:8014
+
+
+
+
+
+
+
+hadoop fs -ls hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/*
+
+
+/HDFS_ROOT/user/srvc_nextgen_hpro/egi/micro_bkp/
+
+
+
+Found 12 items
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro        402 2022-07-28 03:41 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/SERPSecuredReportFactegi.properties
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro      10862 2022-07-21 12:40 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/SecuredSalesShipmentConsumptionegi.properties
+drwxrwxrwx   - srvc_nextgen_hpro srvc_nextgen_hpro          0 2022-07-29 14:51 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/bmt
+drwxrwxrwx   - srvc_nextgen_hpro srvc_nextgen_hpro          0 2022-07-26 12:47 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/bmt_code
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro        610 2022-07-28 06:42 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/bmt_pn_disa_flg_egi_20220623.csv
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro       9063 2022-08-02 06:35 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/job_ea_ope_sls_cpsn_ptnr_cpsn_workflow_egi.xml
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro       1034 2022-08-02 06:33 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/job_ea_secrd_rpt_fact_trueup_paramupdate.properties
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro        553 2022-08-02 06:33 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/job_ea_secrd_rpt_fact_trueup_paramupdate_coordinator.xml
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro       2926 2022-08-02 06:33 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/job_ea_secrd_rpt_fact_trueup_paramupdate_workflow.xml
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro      99995 2022-07-07 03:39 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/job_ea_secrd_rpt_fact_workflow_egi2.xml
+drwxrwxrwx   - srvc_nextgen_hpro srvc_nextgen_hpro          0 2022-07-28 09:40 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/ope_testing
+-rwxrwxrwx   3 srvc_nextgen_hpro srvc_nextgen_hpro        739 2022-07-28 05:51 hdfs://EAP-PROD/user/srvc_nextgen_hpro/egi/micro_bkp/salesshipmentref.properties
+
+
+hdfs://EAP-PROD-FIN/user/srvc_egi_hpro/ukk/BMT_TRUE_UP/
+
+
+/HDFS_ROOT/user/srvc_egi_hpro/ukk/BMT_TRUE_UP
+
+
+
+trueup_fin_param_upd_egi.properties
+
+
+
+
+
+
+/HDFS_ROOT/user/srvc_egi_hpro/egi/secure/oozie/backup
+
+
+/HDFS_ROOT/user/srvc_egi_hpro/egi/secure/oozie/backup
+
+
+
+
+scp /home/kainu/EAP_Pipeline_Fact_Load_Finance_EGI-2.0.0.jar kumarkai@p1lb15374.dc01.its.hpecorp.net:/home/kumarkai/
+ssh kumarkai@p1lb15374.dc01.its.hpecorp.net
+
+chmod 777 EAP_Pipeline_Fact_Load_Finance_EGI-2.0.0.jar
+cd ..
+chmod 777 kumarkai
+sudo su - srvc_egi_hpro
+
+ll /home/kumarkai
+cp /home/kumarkai/EAP_Pipeline_Fact_Load_Finance_EGI-2.0.0.jar /HDFS_ROOT/user/srvc_egi_hpro/egi/secure/lib/
+
+
+
+
+
+job_ea_secrd_rpt_fact_trueup_paramupdate.properties
+
+
+
+[srvc_egi_hpro@p1lb15374 oozie]$ oozie job -oozie https://p1lb15373.dc01.its.hpecorp.net:11443/oozie -config /HDFS_ROOT/user/srvc_egi_hpro/egi/secure/oozie/job_ea_secrd_rpt_fact_trueup_paramupdate.properties -run
+job: 0002242-220725040211966-oozie-oozi-C
+
+
+
+
+oozie job -oozie https://p1lb15373.dc01.its.hpecorp.net:11443/oozie -suspend 0002242-220725040211966-oozie-oozi-C
+yarn application -status application_1654580244675_0630
+yarn logs -applicationId application_1658721775861_1248
+yarn application -kill application_1658721775861_1248
+yarn application -status application_1658721775861_1248
+
+
+frequency="00 11 28-31 * *" start="${startTime}" end="${endTime}" timezone="GMT" >
+
+
+
+
+
